@@ -51,71 +51,85 @@ rRNA providing additional confirmation of community structure.
 \section{Introduction}
 
 Microorganisms are distributed in all four domains in the tree of life
-and recognized for their key roles in ecosystem processes, in many
-nutrient recycling and industrial processes and in the health or
-disease of higher organisms. They are highly diverse at genetic level
-because of their ancient history and habitat diversity
-(\cite{ward2002}). It is well known that most of them have not been
+and are recognized for their key roles in ecosystem processes,
+nutrient recycling and industrial processes, and in the health or
+disease of higher organisms.
+% @CTB - add citation
+They are highly diverse at the genetic level
+because of their long history and large habitat diversity
+\cite{ward2002}. Many microbes have not been
 cultured, which has become especially clear with the advent of
-sequencing of SSU rRNA from environmental samples. The high-throughput
-sequencing technologies such as pyrosequencing (454) and Illumina
-sequencing (MiSeq) of short hyper-variable regions of a phylogentic
-marker gene, ribosomal Small Subunit (SSU rRNA) gene, provide means of
-accessing the uncultured majority (\cite{streit2004}). Although with
-the disadvantange of primer bias, these high-throughput technologies
-(also called amplicon sequencing due to PCR amplification of targeted
-gene) have been extensively used in community structure surveys and
-renewed our understanding of microbial diversity from many
-environments (\cite{huse2008,caporaso2012miseq}). Meanwhile, the
-growing databases of SSU rRNA genes provide a rich ecological and
-phylogenetic context for SSU rRNA gene based community structure
-surveys (\cite{rdp2009,silva2013}).
+culture-free rRNA analysis of environmental samples.
+% @CTB - add citation.
+In particular, high-throughput sequencing of short hyper-variable
+regions of a phylogenetic marker gene, ribosomal Small Subunit (SSU
+rRNA) gene, provides access to the uncultured majority
+(\cite{streit2004}). These high-throughput technologies (also called
+amplicon sequencing because they involve PCR amplification of targeted
+gene) have been used extensively in community structure surveys and
+have expanded our investigation of microbial diversity in many
+environments
+\cite{huse2008,caporaso2012miseq}. Meanwhile, the growing databases
+of SSU rRNA genes provide a rich ecological and phylogenetic context
+for SSU rRNA gene based community structure surveys
+\cite{rdp2009,silva2013}.
 
-Unlike gene targeted amplicon sequencing, shotgun sequencing should
+Amplicon sequencing may be somewhat biased, however, because it
+relies on SSU-specific degenerate PCR primers and is subject to
+PCR chimeras and other technical artifacts.
+% @CTB -- add citation
+Whole metagenome shotgun sequencing is an alternative approach to
+community characterization, in which DNA fragments are randomly
+amplified and sequenced from a mixture.  Shotgun sequencing should
 provide a more accurate characterization of microbial diversity
-because it eliminates primer bias and chimera by sequencing randomly
-sheared fragment of metagenome (\cite{chimeraslayer}), though it is
-still prone to sequencing error and any bias from environmental DNA
-extraction. Thus it provides an improved means to detect divergent
-sequences not recovered by standard SSU rRNA gene primers, such as for
-Verrucomicrobia as well as the eukaryotic members of the community
+than amplicon sequencing
+because it avoids primer bias and is more resilient to chimeras
+\cite{chimeraslayer}, although shotgun sequencing does still
+suffer from general sequencing biases as well as biases due to
+environmental DNA extraction.
+% @CTB -- add citation
+Regardless, shotgun metagenome sequencing provides an improved means
+to detect divergent sequences not recovered by standard SSU rRNA gene
+primers, e.g. Verrucomicrobia and eukaryotic members of the community
 (\cite{baker2003,primereva2008,verruco2011}).
 
-The challenges for use of shotgun DNA for SSU rRNA analyses are the
-efficient search for these fragments and, more so, the subsequent
-analysis because of the short reads. Several methods have been
+Using shotgun DNA sequencing for SSU rRNA analysis is computationally
+difficult, however.  Current deep sequencing approaches yield millions
+to billions of reads of length 50-250 bp, which challenges existing
+computational approaches because of the volume of data and the poor
+information content of the short reads.
+Several methods have been
 developed for fast SSU rRNA retrieval in large data sets
 (\cite{ribopicker,metarna,rrnaselector,metaxa}), but none of them
 provides further community analysis using the identified rRNA gene
-sequences, which is of great interest in the field of microbial
-ecology due to less bias shotgun metagenome. On the other hand,
+sequences.. On the other hand,
 traditional community analysis tools (\cite{rdp2009,mothur,qiime}) can
 only handle amplicon sequences that are amplified by PCR primers.
-There are two types of traditional community analyses: reference based
-and OTU based. The reference based method assigns SSU rRNA gene
-sequence to bins based on taxonomy of its closest reference sequences
-and OTU based method assigns gene sequences to bins based on de-novo
-clustering with certain similarity cutoff (usually 97\%). The
+% @CTB -- the QIIME folk tell me this isn't true...?
+There are two types of traditional community analyses to perform:
+reference based and OTU based. The reference based method assigns SSU
+rRNA gene sequence to bins based on taxonomy of its closest reference
+sequences and OTU based method assigns gene sequences to bins based on
+de-novo clustering with certain similarity cutoff (usually 97\%). The
 reference based method can applied to shotgun data easily once SSU
 rRNA gene fragments are found by assigning taxonomy
 (\cite{rdpclassifier}), while OTU based method is not that
 straightforward on shotgun data.
+% @CTB - this last bit (starting with ``There are two types...'') needs
+% to be integrated into the text better.
 
-The main goal of this study is to enable both OTU based and reference
-based community analysis in shotgun metagenome. First, Hidden Markov
-Model (HMM) based methods already shown to be fast and accurate for
-SSU rRNA search (\cite{metarna,rrnaselector,metaxa}) are applied with
-well-curated and updated training reference sequences from SILVA. Next
-analyzing step leverages the longer reads assembled from overlapping
-paired end reads and the deep coverage provided by Illumina shotgun
-sequencing and makes traditional OTU analyses applicable on reads
-mapped to small hyper-variable regions (150bp) of SSU rRNA genes. This
-analysis framework can also be extended to other genes. The ribosomal
-large subunit (LSU) gene, another phylogenetic marker on the same rrn
-operon as the SSU gene, is also analyzed with the same method and
-provides confirmatory analyses. We tested the framework on soil
-samples, arguably the most diverse communities and find several
-interesting differences between amplicon and shotgun.
+In this study, we enable both OTU- and reference-based community
+analysis from shotgun metagenome data.  First, we retrieve sequences
+using Hidden Markov Model (HMM) based methods, which have already been
+shown to be fast and accurate for SSU rRNA search
+(\cite{metarna,rrnaselector,metaxa}) The analysis step uses longer
+reads obtained from merging paired-end Illumina sequencing to find
+matches to small hyper-variabe regions of SSU rRNA genes, making
+traditional OTU analyses possible.  We also extend the analyses to
+the large subunit (LSU) rRNA gene, another phylogenetic marker.
+We test this framework on soil samples, among the most diverse
+microbial communities available, and explore the differences between
+paired amplicon and shotgun sequencing data sets.
 
 \section{Materials and Methods}
   {\bf Soil sampling, DNA extraction and sequencing. }
