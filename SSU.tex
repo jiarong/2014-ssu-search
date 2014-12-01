@@ -267,7 +267,13 @@ as SSU rRNA gene fragments.
     \begin{figure}[tbph!]
     \centering
     \includegraphics[width=0.8\textwidth]{figs/read_length_dist.png}
-    \caption[Length distribution of identified SSU rRNA gene shotgun fragments]{Length distribution of identified SSU rRNA gene shotgun fragments. The peak with longer length results from the merged pair ends and benefits classification and {\em de novo} clustering in downstream analyses.}
+
+    \caption[Length distribution of identified SSU rRNA gene shotgun
+    fragments]{Length distribution of identified SSU rRNA gene shotgun
+    fragments. The peak with longer length results from the merged
+    pair ends and benefits classification and {\em de novo} clustering
+    in downstream analyses.}
+
     \label{fig:read_length_dist}
     \end{figure}
 
@@ -298,21 +304,43 @@ taxonomy profile at domain level.
 \begin{figure}[tbph!]
   \centering
   \includegraphics[width=0.8\textwidth]{figs/V6to8_SB1_taxa}
-  \caption[Taxonomy profiles at Bacterial phylum level of shotgun fragments and of amplicon reads amplified using V6-V8 primer]{Taxonomy profiles at Bacterial phylum level of shotgun fragments from SSU and LSU rRNA gene and of amplicon reads amplified using V6-V8 primer (515F/806R). Classifications are done using both RDP and SILVA reference database. Amplicon data shows less Actinobacteria in both databases.}
+
+  \caption[Taxonomy profiles at Bacterial phylum level of shotgun
+  fragments and of amplicon reads amplified using V6-V8
+  primer]{Taxonomy profiles at Bacterial phylum level of shotgun
+  fragments from SSU and LSU rRNA gene and of amplicon reads amplified
+  using V6-V8 primer (515F/806R). Classifications are done using both
+  RDP and SILVA reference database. Amplicon data shows less
+  Actinobacteria in both databases.}
+
   \label{fig:V6to8_SB1_taxa}
 \end{figure}
 
 \begin{figure}[tbph!]
   \centering
   \includegraphics[width=0.8\textwidth]{figs/V4_M1_taxa}
-  \caption[Taxonomy profiles at Bacterial phylum level of shotgun fragments  and of amplicon reads amplified using V4 primer]{Taxonomy profiles at Bacterial phylum level of shotgun fragments from SSU and LSU rRNA gene and of amplicon reads amplified using V4 primer (515F/806R). Classifications are done using both RDP and SILVA reference database. Amplicon data shows less Actinobacteria in both databases.}
+
+  \caption[Taxonomy profiles at Bacterial phylum level of shotgun
+  fragments and of amplicon reads amplified using V4 primer]{Taxonomy
+  profiles at Bacterial phylum level of shotgun fragments from SSU and
+  LSU rRNA gene and of amplicon reads amplified using V4 primer
+  (515F/806R). Classifications are done using both RDP and SILVA
+  reference database. Amplicon data shows less Actinobacteria in both
+  databases.}
+
   \label{fig:V4_M1_taxa}
 \end{figure}
 
 \begin{figure}[tbph!]
   \centering
   \includegraphics[width=0.8\textwidth]{figs/LSU_domain_taxa}
-  \caption[Taxonomy profile at domain level using SILVA SSU and LSU rRNA database]{Supp. Taxonomy profile at domain level using SILVA SSU and LSU rRNA database. For both samples (SB1 and M1), SSU and LSU show consistent domain level taxonomy distribution (Pearson’s correlation coefficient = 1).}
+
+  \caption[Taxonomy profile at domain level using SILVA SSU and LSU
+  rRNA database]{Supp. Taxonomy profile at domain level using SILVA
+  SSU and LSU rRNA database. For both samples (SB1 and M1), SSU and
+  LSU show consistent domain level taxonomy distribution (Pearson’s
+  correlation coefficient = 1).}
+
   \label{fig:LSU_domain_taxa}
 \end{figure}
 
@@ -331,28 +359,76 @@ significant difference in shotgun data and amplicon data.
 \begin{figure}[tbph!]
   \centering
   \includegraphics[width=0.8\textwidth]{figs/SB1_techrep_OTUscat}
-  \caption[Technical reproducibility test]{Supp. Technical reproducibility test. X axis shows number of raw reads per OTU in log scale in replicate SB1\_123, and y axis shows number of raw reads per OUT in log scale in replicate SB1\_456. The size of circle is proportional to number of OTUs with the same counts in SB1\_123 and also in SB1\_456. The counts are in both replicates are increased by 1 to avoid 0 counts that can be displaced in log scale. There are 6 technical replicates for sample SB1 sequenced in 6 lanes of Illumina plate using DNA from the same extraction. First three lanes are pooled as SB1\_123 and next three lanes are pooled as SB1\_456. The two technical replicates show consistent counts for each OTU, and the consistency is higher when the abundance of OTUs are higher. Pearson’s correlation coefficient is 0.997 on the original counts.}
+
+  \caption[Technical reproducibility test]{Supp. Technical
+  reproducibility test. X axis shows number of raw reads per OTU in
+  log scale in replicate SB1\_123, and y axis shows number of raw
+  reads per OUT in log scale in replicate SB1\_456. The size of circle
+  is proportional to number of OTUs with the same counts in SB1\_123
+  and also in SB1\_456. The counts are in both replicates are
+  increased by 1 to avoid 0 counts that can be displaced in log
+  scale. There are 6 technical replicates for sample SB1 sequenced in
+  6 lanes of Illumina plate using DNA from the same extraction. First
+  three lanes are pooled as SB1\_123 and next three lanes are pooled
+  as SB1\_456. The two technical replicates show consistent counts for
+  each OTU, and the consistency is higher when the abundance of OTUs
+  are higher. Pearson’s correlation coefficient is 0.997 on the
+  original counts.}
+
   \label{fig:SB1_techrep_OTUscat}
 \end{figure}
 
 \begin{figure}[tbph!]
   \centering
   \includegraphics[width=0.8\textwidth]{figs/SB1_techrep_OTUscatR2}
-  \caption[Progressive dropout analysis using log10 transformed data]{Supp. Progressive dropout analysis using log10 transformed data. X axis the threshold of OTU abundance and y axis is the $R^2$ of linear regression of log transformed OTU abundances in two replicates when OTUs with lower abundance then threshold are discarded. When only OTUs with abundance higher than 25 are considered, $R^2$ reaches 0.88,  which is acceptable as a balance between reproducibility and data loss for low abundance OTUs within log10 transformed data.}
+
+  \caption[Progressive dropout analysis using log10 transformed
+  data]{Supp. Progressive dropout analysis using log10 transformed
+  data. X axis the threshold of OTU abundance and y axis is the $R^2$
+  of linear regression of log transformed OTU abundances in two
+  replicates when OTUs with lower abundance then threshold are
+  discarded. When only OTUs with abundance higher than 25 are
+  considered, $R^2$ reaches 0.88, which is acceptable as a balance
+  between reproducibility and data loss for low abundance OTUs within
+  log10 transformed data.}
+
   \label{fig:SB1_techrep_OTUscatR2}
 \end{figure}
 
 \begin{figure}[tbph!]
   \centering
   \includegraphics[width=0.8\textwidth]{figs/SB1_SGvsPT_OTUscat}
-  \caption[Comparison of OTU abundance between shotgun and amplicon data in sample SB1]{Supp. Comparison of OTU abundance between shotgun and amplicon data. X axis shows number of shotgun raw reads per OTU in log scale in sample SB1, and y axis shows number of amplicon raw reads per OUT in log scale in sample SB1. The size of circle is proportional to number of OTUs with the same counts in shotgun data and also in amplicon data. The counts are in both replicates are increased by 1 to avoid 0 counts that can be displaced in log scale. There are OTUs with significant different abundance in two types of data (circles deviate from diagonal line). Pearson’s correlation between two types of data is 0.873.}
-  \label{fig:SB1_SGvsPT_OTUscat}
+
+  \caption[Comparison of OTU abundance between shotgun and amplicon
+  data in sample SB1]{Supp. Comparison of OTU abundance between
+  shotgun and amplicon data. X axis shows number of shotgun raw reads
+  per OTU in log scale in sample SB1, and y axis shows number of
+  amplicon raw reads per OUT in log scale in sample SB1. The size of
+  circle is proportional to number of OTUs with the same counts in
+  shotgun data and also in amplicon data. The counts are in both
+  replicates are increased by 1 to avoid 0 counts that can be
+  displaced in log scale. There are OTUs with significant different
+  abundance in two types of data (circles deviate from diagonal
+  line). Pearson’s correlation between two types of data is
+  0.873.}  \label{fig:SB1_SGvsPT_OTUscat}
 \end{figure}
 
 \begin{figure}[tbph!]
   \centering
   \includegraphics[width=0.8\textwidth]{figs/M1_SGvsPT_OTUscat}
-  \caption[Comparison of OTU abundance between shotgun and amplicon data in sample M1. ]{Supp. Comparison of OTU abundance between shotgun and amplicon data in sample M1. X axis shows number of shotgun raw reads per OTU in log scale, and y axis shows number of amplicon raw reads per OUT in log scale. The size of circle is proportional to number of OTUs with the same counts in shotgun data and also in amplicon data. The counts are in both replicates are increased by 1 to avoid 0 counts that can be displaced in log scale. There are OTUs with significant different abundance in two types of data (circles deviate from diagonal line). Pearson’s correlation between two types of data is 0.581.}
+
+  \caption[Comparison of OTU abundance between shotgun and amplicon
+  data in sample M1. ]{Supp. Comparison of OTU abundance between
+  shotgun and amplicon data in sample M1. X axis shows number of
+  shotgun raw reads per OTU in log scale, and y axis shows number of
+  amplicon raw reads per OUT in log scale. The size of circle is
+  proportional to number of OTUs with the same counts in shotgun data
+  and also in amplicon data. The counts are in both replicates are
+  increased by 1 to avoid 0 counts that can be displaced in log
+  scale. There are OTUs with significant different abundance in two
+  types of data (circles deviate from diagonal line). Pearson’s
+  correlation between two types of data is 0.581.}
+
   \label{fig:M1_SGvsPT_OTUscat}
 \end{figure}
 
@@ -370,21 +446,50 @@ variations among these regions are also observed (Figure
 \begin{figure}[tbph!]
   \centering
   \includegraphics[width=0.8\textwidth]{figs/V4_SGvsPT_pcoa}
-  \caption[PCoA of OTUs resulting from {\em de novo} clustering with shotgun data and amplicon data using 150bp of V4 region]{PCoA of OTUs resulting from {\em de novo} clustering with shotgun data and amplicon data using 150bp of V4 region. Samples with suffix ``\_PT'' (teal) are amplicon data and the others (orange) are shotgun data. Two types of data both show the separation of corn (circle) and miscanthus (square) rhizosphere samples along x-axis while there are significant differences between these two types of data shown along y-axis (ANOVA p-value $<$ 0.001).}
+
+  \caption[PCoA of OTUs resulting from {\em de novo} clustering with
+  shotgun data and amplicon data using 150bp of V4 region]{PCoA of
+  OTUs resulting from {\em de novo} clustering with shotgun data and
+  amplicon data using 150bp of V4 region. Samples with suffix ``\_PT''
+  (teal) are amplicon data and the others (orange) are shotgun
+  data. Two types of data both show the separation of corn (circle)
+  and miscanthus (square) rhizosphere samples along x-axis while there
+  are significant differences between these two types of data shown
+  along y-axis (ANOVA p-value $<$ 0.001).}
+
   \label{fig:V4_SGvsPT_pcoa}
 \end{figure}
 
 \begin{figure}[tbph!]
   \centering
   \includegraphics[width=0.8\textwidth]{figs/compare_vregion_color_1leg}
-  \caption[PCoA analysis of OTUs resulting from {\em de novo} clustering with shotgun data using 150bp of V2, V4, V6, V8 regions]{Supp.?? PCoA analysis of OTUs resulting from {\em de novo} clustering with shotgun data using 150bp of V2, V4, V6, V8 regions. Different variable regions in the shotgun data can be used for clustering and show the same grouping of samples, which is separation of corn (filled markers) and miscanthus (unfilled markers) rhizosphere samples along x-axis. The PCoA results of different variable regions are plotted together using procrustes analysis in QIIME.}
+
+  \caption[PCoA analysis of OTUs resulting from {\em de novo}
+  clustering with shotgun data using 150bp of V2, V4, V6, V8
+  regions]{Supp.?? PCoA analysis of OTUs resulting from {\em de novo}
+  clustering with shotgun data using 150bp of V2, V4, V6, V8
+  regions. Different variable regions in the shotgun data can be used
+  for clustering and show the same grouping of samples, which is
+  separation of corn (filled markers) and miscanthus (unfilled
+  markers) rhizosphere samples along x-axis. The PCoA results of
+  different variable regions are plotted together using procrustes
+  analysis in QIIME.}
+
   \label{fig:compare_vregion}
 \end{figure}
 
 \begin{figure}[tbph!]
   \centering
   \includegraphics[width=0.8\textwidth]{figs/compare_vregion_alpha.pdf}
-  \caption[Alpha diversity of OTUs resulting from {\em de novo} clustering with shotgun data using 150bp of V2, V4, V6, V8 regions]{Alpha diversity of OTUs resulting from {\em de novo} clustering with shotgun data using 150bp of V2, V4, V6, V8 regions. All variable regions show M (miscanthus) is more diverse than C (corn), even though there are variation of diversity among regions.}
+
+  \caption[Alpha diversity of OTUs resulting from {\em de novo}
+  clustering with shotgun data using 150bp of V2, V4, V6, V8
+  regions]{Alpha diversity of OTUs resulting from {\em de novo}
+  clustering with shotgun data using 150bp of V2, V4, V6, V8
+  regions. All variable regions show M (miscanthus) is more diverse
+  than C (corn), even though there are variation of diversity among
+  regions.}
+
   \label{fig:compare_vregion_alpha}
 \end{figure}
 
@@ -399,14 +504,24 @@ of our soils samples does not change (Figure
 \begin{figure}[tbph!]
   \centering
   \includegraphics[width=0.8\textwidth]{figs/SB1+M1_cc}
-  \caption[Taxonomy summary before and after SSU rRNA gene copy correction]{Bacterial phylum level taxonomy summary before and after SSU rRNA gene copy correction. Left vertical axis shows percentage in total community and right vertical axis shows fold change after copy correction. Taxon with relative abundance of more than 0.1\% before copy correction are chosen and are ordered based on fold change. Subfigure A is for SB1 and B is for M1.}
+
+  \caption[Taxonomy summary before and after SSU rRNA gene copy
+  correction]{Bacterial phylum level taxonomy summary before and after
+  SSU rRNA gene copy correction. Left vertical axis shows percentage
+  in total community and right vertical axis shows fold change after
+  copy correction. Taxon with relative abundance of more than 0.1\%
+  before copy correction are chosen and are ordered based on fold
+  change. Subfigure A is for SB1 and B is for M1.}
+
   \label{fig:SB1+M1_cc}
 \end{figure}
 
 \begin{figure}[tbph!]
   \centering
   \includegraphics[width=0.8\textwidth]{figs/V4-SG+PT-CC-pcoa}
+
 \caption[PCoA of copy corrected OTUs resulting from {\em de novo} clustering with shotgun data and amplicon data using 150bp of V4 region]{PCoA of copy corrected OTUs resulting from {\em de novo} clustering with shotgun data and amplicon data using 150bp of V4 region. Samples with suffix ``\_PT'' (teal) are amplicon data and the others (orange) are shotgun data. Two types of data both show the separation of corn (circle) and miscanthus (square) rhizosphere samples along x-axis while there are significant differences between these two types of data shown along y-axis (ANOVA p-value $<$ 0.001).}
+
   \label{fig:V4-SG+PT-CC-pcoa}
 \end{figure}
 
@@ -604,7 +719,11 @@ based analysis.
 % \captionsetup{singlelinecheck=off}
 
 \begin{table}[tbph!]
-\caption{Comparison of search results using HMM models from SSUsearch and meta-rna. Subsets of 5 million reads from a synthetic community, M1 and SB1 (soil metagenomes) are used as testing data.}
+
+ \caption{Comparison of search results using HMM models from SSUsearch
+ and meta-rna. Subsets of 5 million reads from a synthetic community,
+ M1 and SB1 (soil metagenomes) are used as testing data.}
+
 \label{tab:hmm_comparison}
 \begin{tabular}{cccc}
 \toprule
