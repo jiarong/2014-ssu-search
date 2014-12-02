@@ -31,29 +31,30 @@
 
 \begin{abstract}
 
-Amplicon sequencing of SSU rRNA genes amplified directly from
-environmental sample DNA extractions is now standard procedure for
-assessing microbial community structures. In contrast, metagenomic
-shotgun sequencing does not depend on gene-targeted primers or PCR
-amplification and thus is not affected by primer bias or chimeras,
-respectively. However, it is difficult to detect and recover SSU rRNA
-genes from shotgun data and then to analyze them because of the large
-number and short lengths of the reads. A framework (SSUsearch, or need
-a better name; it’s not about search anymore; MG-RNA, SG-RNA,
-RNAlyze?) was developed to search for the SSU rRNA gene fragments in
-shotgun data followed by supervised classification, clustering, copy
+Targeted sequencing of 16s and other short subunit rRNA genes
+amplified directly from environmental samples is now standard
+procedure for assessing microbial community structures. In contrast,
+metagenomic shotgun sequencing does not depend on gene-targeted
+primers or PCR amplification and thus is not affected by primer bias
+or chimeras. However, it is difficult to detect and recover rRNA genes
+from shotgun data and then to analyze them because of the large number
+and short lengths of the reads. We present a framework (SSUsearch, or
+need a better name; it's not about search anymore; MG-RNA, SG-RNA,
+RNAlyze?) to search for short subunit rRNA gene fragments in shotgun
+data, followed by supervised classification, clustering, copy
 correction and operational taxonomy unit (OTU) based diversity
 analysis. Taxonomy profile comparison of shotgun data and amplicon
 data from the same sample shows bias against Actinobacteria and
 Verrucomicrobia in the V6-V8 primer set and Actinobacteria in the V4
 primer. Besides taxonomy based diversity analyses, this pipeline also
-enabled {\em de novo} OTU based diversity analyses. In application to
-rhizosphere soil samples, shotgun metagenomic data show higher
-diversity than amplicon data but the same grouping of samples in
-ordination analyses. Firmicutes have highest fold change after copy
-correction in both soil samples. The HMM model can recover Bacteria,
-Archaea and Eukaryota. Further, the analysis framework can be applied
-to LSU rRNA providing additional confirmation of community structure.
+enables {\em de novo} OTU based diversity analyses. When applied to
+rhizosphere soil samples, shotgun metagenomic data yields higher
+diversity estimates than amplicon data but retains the grouping of
+samples in ordination analyses. Firmicutes are the most affected by
+copy correction in both soil samples.  The search model used can
+recover Bacteria, Archaea and Eukaryota. This analysis
+framework can also be applied to large subunit rRNA, which can
+provide additional confirmation of community structure.
 \end{abstract}
 
 \section{Introduction}
@@ -61,195 +62,190 @@ to LSU rRNA providing additional confirmation of community structure.
 Microorganisms are distributed in all four domains in the tree of life
 and recognized for their key roles in ecosystem processes, in many
 nutrient recycling and industrial processes and in the health or
-disease of higher organisms. They are highly diverse at genetic level
-because of their ancient history and habitat diversity
-(\cite{ward2002}). It is well known that most of them have not been
+disease of multicellular organisms. They are diverse at the genetic level
+because of their ancient history and many habitats
+\cite{ward2002}. Most microorganisms have not been 
 cultured, which has become especially clear with the advent of
-sequencing of SSU rRNA from environmental samples. The high-throughput
-sequencing technologies such as pyrosequencing (454) and Illumina
-sequencing (MiSeq) of short hyper-variable regions of a phylogenetic
-marker gene, ribosomal Small Subunit (SSU rRNA) gene, provide means of
-accessing the uncultured majority (\cite{streit2004}). Although with
-the disadvantage of primer bias, these high-throughput technologies
-(also called amplicon sequencing due to PCR amplification of targeted
-gene) have been extensively used in community structure surveys and
-renewed our understanding of microbial diversity from many
+sequencing of SSU rRNA from environmental samples @cite. High-throughput
+sequencing of PCR-amplified short hyper-variable regions of
+the ribosomal Small Subunit (SSU rRNA) gene provide a means of
+accessing the uncultured majority \cite{streit2004}. Although they
+are dependent on accurate primer sequences, this amplicon sequencing 
+has been extensively used in community structure surveys and
+has extended our understanding of microbial diversity into many
 environments (\cite{huse2008,caporaso2012miseq}). Meanwhile, the
-growing databases of SSU rRNA genes provide a rich ecological and
+growing size of SSU rRNA gene databases provide a rich ecological and
 phylogenetic context for SSU rRNA gene based community structure
-surveys (\cite{rdp2009,silva2013}).
+surveys \cite{rdp2009,silva2013}.
 
-Unlike gene targeted amplicon sequencing, shotgun sequencing should
-provide a more accurate characterization of microbial diversity
-because it eliminates primer bias and chimera by sequencing randomly
-sheared fragment of metagenome (\cite{chimeraslayer}), though it is
-still prone to sequencing error and any bias from environmental DNA
-extraction. Thus it provides an improved means to detect divergent
-sequences not recovered by standard SSU rRNA gene primers, such as for
-Verrucomicrobia as well as the eukaryotic members of the community
-(\cite{baker2003,primereva2008,verruco2011}).
+Unlike gene targeted amplicon sequencing, shotgun sequencing samples
+from the entire community, sequencing randomly shared fragments of DNA
+@cite.  While still prone to sequencing error and bias from
+environmental DNA extracion, it should therefore provide a more
+accurate characterization of microbial diversity \cite{chimeraslayer}.
+In particular, shotgun sequencing provides an improved means to detect
+divergent sequences not recovered by standard SSU rRNA gene primers,
+such as Verrucomicrobia, as well as eukaryotic members of the
+community \cite{baker2003,primereva2008,verruco2011}.
 
-The challenges for use of shotgun DNA for SSU rRNA analyses are the
-efficient search for these fragments and, more so, the subsequent
-analysis because of the short reads. Several methods have been
+The challenge for using shotgun DNA for rRNA analyses is 
+efficiently searching for these fragments in large data sets,
+and the subsequent analysis of the short reads.
+Several methods have been
 developed for fast SSU rRNA retrieval in large data sets
-(\cite{ribopicker,metarna,rrnaselector,metaxa}), but none of them
+\cite{ribopicker,metarna,rrnaselector,metaxa}, but none of them
 provides further community analysis using the identified rRNA gene
-sequences, which is of great interest in the field of microbial
-ecology due to less bias shotgun metagenome. On the other hand,
-traditional community analysis tools (\cite{rdp2009,mothur,qiime}) are
-mainly designed to handle amplicon sequences that are amplified by PCR
-primers. There are two types of traditional community analyses:
+sequences.  On the other hand,
+traditional community analysis tools \cite{rdp2009,mothur,qiime} are
+largely designed to handle amplicon sequences that are amplified by PCR
+primers. There are two primary types of community analyses:
 reference based and OTU based. The reference based method assigns SSU
-rRNA gene sequence to bins based on taxonomy of its closest reference
-sequences and OTU based method assigns gene sequences to bins based on
-de-novo clustering with certain similarity cutoff (usually 97\%). The
-reference based method can applied to shotgun data easily once SSU
-rRNA gene fragments are found by assigning taxonomy
-(\cite{rdpclassifier}), while OTU based method is not that
-straightforward on shotgun data.
+rRNA gene sequences to bins based on taxonomy of their closest reference
+sequences, while OTU based methods assign gene sequences to bins based on
+de novo clustering with a specified similarity cutoff (usually 97\%). The
+reference based method can be easily applied to shotgun data once SSU
+rRNA gene fragments \cite{rdpclassifier}, while the OTU based method
+relies on methods that must be adapted to shotgun data.
 
 The main goal of this study is to enable both OTU based and reference
-based community analysis in shotgun metagenome. First, Hidden Markov
-Model (HMM) based methods already shown to be fast and accurate for
-SSU rRNA search (\cite{metarna,rrnaselector,metaxa}) are applied with
-well-curated and updated training reference sequences from SILVA. Next
-analyzing step leverages the longer reads assembled from overlapping
-paired end reads and the deep coverage provided by Illumina shotgun
-sequencing and makes traditional OTU analyses applicable on reads
-mapped to small hyper-variable regions (150bp) of SSU rRNA genes. This
-analysis framework can also be extended to other genes. The ribosomal
-large subunit (LSU) gene, another phylogenetic marker on the same rrn
-operon as the SSU gene, is also analyzed with the same method and
-provides confirmatory analyses. We tested the framework on soil
-samples, arguably the most diverse communities and find several
-interesting differences between amplicon and shotgun.
+based community analysis of shotgun metagenome data. First, we apply
+Hidden Markov Model (HMM) based methods already shown to be fast and
+accurate for SSU rRNA search \cite{metarna,rrnaselector,metaxa} using
+well-curated and updated training reference sequences from
+SILVA. Next, we leverage longer reads assembled from overlapping
+paired end reads and map these reads to small hyper-variable reagons
+of SSU rRNA genes (@ctb this sentence needs to be fixed).  This
+analysis framework can also be extended to other genes. We also
+analyze the ribosomal large subunit (LSU) gene, another phylogenetic
+marker on the same rrn operon as the SSU gene, with the same method,
+and provides confirmatory analyses. We test the framework on paired
+amplicon and shotgun metagenome data from soil,
+and examine several interesting differences between our results.
 
 \section{Materials and Methods}
 
-{\bf Soil sampling, DNA extraction and sequencing. } Rhizosphere soil
+{\bf Soil sampling, DNA extraction and sequencing.} Rhizosphere soil
 was sampled by collecting soil tightly attached (within 2mm) of roots
 and bulk soil was sampled obtained from the mid-point between plant
 rows. DNA extraction and SSU rRNA gene amplification was previously
-described (\cite{ed2010}). An SSU rRNA gene primer set (926F:
-AAACTYAAAKGAATTGACGG 1392R: ACGGGCGGTGTGTRC) was used target V6-V8
-variable region in the standard Joint Genome Institute (JGI) 454 GS
-FLX and Titanium sequencing workflow and cover bacteria, archaea and
-eukaryotes (16S and 18S rRNA). Another primer set (515F:
-GTGCCAGCMGCCGCGGTAA 806R: GGACTACHVGGGTWTCTAAT) was used to target V4
-variable region in JGI MiSeq sequencing workflow. Shotgun sequencing
-is done with Illumina GAII platforms and HiSeq using 250bp insert
-libraries and pair end 150bp read length. One switchgrass bulk soil
-sample (SB1) is sequenced by 454 Titanium and Illumina GAII
+described \cite{ed2010}. An SSU rRNA gene primer set (926F:
+AAACTYAAAKGAATTGACGG 1392R: ACGGGCGGTGTGTRC) was used to target the V6-V8
+variable region from bacteria, archaea, and eukaryotes in the standard Joint Genome Institute (JGI) 454 GS FLX and Titanium sequencing workflow. Another primer set (515F:
+GTGCCAGCMGCCGCGGTAA 806R: GGACTACHVGGGTWTCTAAT) was used to target the V4
+variable region in the JGI MiSeq sequencing workflow. Shotgun sequencing
+was done with Illumina GAII platforms and HiSeq using 250bp insert
+libraries and 2x150bp reads. One switchgrass bulk soil
+sample (SB1) was sequenced by both the 454 Titanium and Illumina GAII
 platform. Seven replicates of corn (C1 - C7) and miscanthus (M1 - M7)
-rhizosphere soil samples are sequenced by MiSeq and HiSeq
-platform. All these samples are collected from GLBRC intensive site at
+rhizosphere soil samples were sequenced the by MiSeq and HiSeq
+platform. All these samples were collected from the GLBRC intensive site at
 Kellogg Biological Station, MI.
 
-{\bf Data preprocess. } The whole analysis framework is shown in
-Figure ~ref{fig:flowchart}. Data preprocess is necessary for both
+{\bf Data preprocessing.} The whole analysis framework is shown in
+Figure~\ref{fig:flowchart}. Data preprocessing is necessary for both
 shotgun and amplicon data due to sequencing error. Trailing bases with
-quality score ``2'' encoded by ASCII 66 ``B'' are trimmed off GAII
-Illumina 1.5 shotgun data and reads shorter than 30bp and with Ns are
-discarded using a python script. HiSeq shotgun data were quality
+quality score ``2'' encoded by ASCII 66 ``B'' were trimmed off GAII
+Illumina 1.5 shotgun data and reads shorter than 30bp and with Ns were
+discarded using a Python script (@CTB which one?). HiSeq shotgun data were quality
 trimmed with fast-mcf in the EA-Utils
-(http://code.google.com/p/ea-utils) with flags `` -l 50 -q 30 -w 4 -k
-0 -x 0 --max-ns 0 -H''. Then paired-end reads with overlaps more than
-10bp were assembled into one long read by FLASH (\cite{flash2011})
+(http://code.google.com/p/ea-utils) using flags `` -l 50 -q 30 -w 4 -k
+0 -x 0 --max-ns 0 -H''. Then paired-end reads overlapping by more than
+10bp were assembled into one long read by FLASH \cite{flash2011}
 with ``-m 10 -M 120 -x 0.20 -r 140 -f 250 -s 25 -t 1''. 454 pyrotag
 amplicon data was processed using the RDP pyrosequencing pipeline
-(\cite{rdp2009}). Since the targeted region is about 467bp
+\cite{rdp2009}. Since the targeted region is about 467bp
 (926F/1392R), the reads were not long enough to cover the whole
 region, so only the reverse primer was used for quality trimming. The
 minimum length was set to 400bp and defaults were used for other
 parameters.
 
-{\bf Building SSU and LSU rRNA gene models. } First, SILVA
-(\cite{silva2013}) SSU and LSU Ref NR database (version 115) sequences
-are quality trimmed to discard all sequences with ambiguous DNA bases
-and ``U'' is converted to ``T'', and then are clustered at 97\%
-similarity cutoff using pick\_otus.py and pick\_rep\_set.py in
-QIIME(\cite{qiime}). Then the longest representative in each OTU is
-chosen and further clustered at 80\% similarity cutoff. The longest
-sequence in each OTU is collected, resulting in 4027 representative
-sequences for SSU rRNA gene and 1295 for LSU as a phylogenetically
-diverse set of reference genes. These sequences were further grouped
+{\bf Building SSU and LSU rRNA gene models.} First, we quality
+trimmed SILVA
+\cite{silva2013} SSU and LSU Ref NR database (version 115) sequences
+to discard all sequences with ambiguous DNA bases and convert
+ ``U'' were converted to ``T''.  We then clustered them at a 97\%
+similarity cutoff using pick\_otus.py and pick\_rep\_set.py from
+QIIME \cite{qiime}. We next chose the longest representative in each OTU 
+further clustered at 80\% similarity cutoff. We collected the longest
+sequence in each OTU, resulting in 4027 representative
+sequences for the SSU rRNA gene and 1295 for LSU as a phylogenetically
+diverse set of reference genes. We further grouped these sequences
 into two groups, one with Bacteria and Archaea and the other with
-Eukaryota. Each group were then used to make a HMM (Hidden Markov
-Model) by hmmbuild in HMMER version 3.1 (\cite{hmmer3}) and two HMM
+Eukaryota. Each group was used to make a HMM (Hidden Markov
+Model) using hmmbuild in HMMER version 3.1 \cite{hmmer3}, and the two HMM
 files were concatenated as a single file.
 
 {\bf Identification of SSU and rRNA gene fragments from metagenomic
-data. } LSU and SSU HMM model were used to search against shotgun data
-by hmmsearch in HMMER (version 3.1). An e-value of 10 is used for
-newly built HMMs and an e-value of $10^{-5}$ (default) is used for
-models in meta-rna (\cite{metarna}), when testing the sensitivity of
+data.} We searched shotgun data with hmmsearch 3.1 using the the LSU and SSU
+HMM models. We used an e-value of 10 for the
+newly built HMMs while an e-value of $10^{-5}$ (default) was used for
+models in meta-rna \cite{metarna}, when testing the sensitivity of
 newly built models. Reverse complements of all reads were added to the
-shotgun sequence file before the hmmsearch. The HMMER hits using
-default e-value cutoff of 10 are fed into the multiple sequence
-aligner (align.seqs) implemented in Mothur
-(\cite{mothuraligner2009}). For SSU rRNA gene fragments, 18491
+shotgun sequence file before running hmmsearch. We fed the HMMER hits from
+the e-value cutoff of 10 into the multiple sequence
+aligner (align.seqs) in Mothur
+\cite{mothuraligner2009}. For SSU rRNA gene fragments, 18491
 full-length SSU rRNA gene sequences (14956 from Bacteria, 2297 from
 Archaea, and 1238 from Eukaryota) from the SILVA database
-(\cite{silva2013}) provided in mothur website are used as template
+\cite{silva2013} provided in mothur website were used as the template
 with flags ``search = suffix, threshold = 0.5, and filp = t''.  For
 LSU rRNA, Multiple Sequence Alignment (MSA) of representative
 sequences of SILVA LSU Ref NR database clustered at 97\% similarity
-cutoff is used as template with the same flags as SSU. Based on
+cutoff were used as template with the same flags as SSU. Based on
 alignment information in report file, those shotgun reads with more
-than 50\% of their basepairs mapped to a reference gene are designated
+than 50\% of their basepairs mapped to a reference gene were designated
 as SSU rRNA or LSU rRNA gene fragments.
 
 {\bf Comparison of taxonomy based microbial community structures
-inferred from shotgun and amplicon SSU rRNA gene sequences. } The SSU
+inferred from shotgun and amplicon SSU rRNA gene sequences.} The SSU
 rRNA fragments from shotgun data and amplicon data were classified
-using RDP’s Classifier (\cite{rdpclassifier}). The reference SSU rRNA
-genes from RDP and SILVA are provided in Mothur website and are used
-as the template and the bootstrap confidence cutoff for classification
-is 50\%. Meanwhile, representative sequences of SILVA Ref NR clustered
-at 97\% similarity cutoff are used as template and the taxonomy
-information can be extracted from the sequence file. The bacterial
+using RDP's Classifier \cite{rdpclassifier}. The reference SSU rRNA
+genes from RDP and SILVA are provided on the Mothur website and were used
+as the template,  with a bootstrap confidence cutoff for classification
+of 50\%. Meanwhile, representative sequences of SILVA Ref NR clustered
+at 97\% similarity cutoff were used as a template and the taxonomy
+information was extracted from the sequence file. The bacterial
 taxonomy profiles from shotgun data and amplicon data were compared at
 phylum level.
 
-{\bf Copy correction. } SSU rRNA gene copy number of each taxon in
-Greengenes database has previously been calculated
-(\cite{copyrighter}). In taxonomic summary, the abundance of each
+{\bf Copy correction.} SSU rRNA gene copy number of each taxon in
+Greengenes database have previously been calculated
+\cite{copyrighter}. In the taxonomic summary, the abundance of each
 taxon is weighted by the inverse of its SSU rRNA gene copy
 number. Similarly in OTU based analysis, the abundance of each OTU is
 weighted by the inverse of SSU rRNA gene copy number of its taxon.
 
 {\bf Community structure comparison based on OTUs clustered from 150
-hyper variable regions. } For the clustering analysis of shotgun and
+hyper variable regions.} For the clustering analysis of shotgun and
 amplicon data, 150bp in V8 region (E.coli positions: 1227-1377) were
 aligned. Reads longer than 100bp were kept in the MSA of V8 region and
 then clustered by mcclust with minimum overlap of 25bp
-(\cite{rdp2009}). The clustering result was converted to Mothur format
+\cite{rdp2009}. The clustering result was converted to the Mothur format
 and beta diversity analysis was done by make.shared with
 ``label=0.03'', dist.shared(calc=thetayc), and pcoa command in
 Mothur. When comparing different regions, E. coli positions: 127-277,
 577-727, and 997-1147 were chosen for V2, V4, and V6,
-respectively. The procrustes analysis provided in QIIME (\cite{qiime})
+respectively. The procrustes analysis provided in QIIME \cite{qiime}
 was used. The PCoA results are plotted in the same figure; V2, V4 and
 V6 are transformed to minimize the distances between corresponding
 points in V8.
 
 {\bf Comparison of OTU based microbial community structures inferred
-from shotgun and amplicon SSU rRNA gene sequences. } Abundance of each
+from shotgun and amplicon SSU rRNA gene sequences.} The abundance of each
 OTU in shotgun data and amplicon data (V6-V8 for SB1 and V4 for M1)
-from the same DNA extraction are compared to check the consistency
-between two types of sequencing technology. Pearson’s correlation
-coefficient and $R^2$ of linear regression are used to evaluate the
-correlation between two types of data and also correlation between two
-technical replicates. All the abundances of each OTU are increased by
-one to order to be displayed in log scale (avoiding zeros). There are
-6 technical replicates (lanes) for SB1. We pooled first three as
+from the same DNA extraction were compared to check the consistency
+between the two sequencing approaches. Pearson's correlation
+coefficient and $R^2$ of linear regression were used to evaluate the
+correlation between the two types of data and between 
+technical replicates. All the abundances of each OTU were increased by
+a pseudocount of one for display in log scale (avoiding zeros). There are
+6 technical replicates (lanes) for SB1. We pooled the first three as
 SB1\_123 and the others as SB1\_456 to achieve better sequencing
 depth.
 
-{\bf Implementation. } An implementation of the pipeline can be found
-in https://github.com/jiarong/SSUsearch. An a script for reproduce on
-the figures in this paper can be found in.
+{\bf Implementation.} An implementation of the pipeline can be found
+in https://github.com/jiarong/SSUsearch. Scripts for reproducing on
+the figures in this paper can be found @here.
 
 \section{Results}
 
