@@ -1,4 +1,4 @@
-# Bash script to do analysis in SSUsearch paper
+# Makefile to do analysis in SSUsearch paper
 
 Makefile:=/mnt/lustre_scratch_2012/tg/g/dataForPaper/RNA/jobs/cluster/ssusearch/Makefile
 Scriptdir:=/mnt/lustre_scratch_2012/tg/g/dataForPaper/RNA/jobs/cluster/ssusearch/scripts/
